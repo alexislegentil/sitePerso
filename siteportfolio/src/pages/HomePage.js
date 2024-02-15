@@ -1,39 +1,25 @@
-import React, { useEffect } from 'react';
-import { Howl } from 'howler';
+import React, { useState } from 'react';
+import ReactHowler from 'react-howler';
+import soundFile from '../sounds/PierreGuerrier.m4a'; // Assurez-vous de placer votre fichier sonore dans le même répertoire que ce fichier
 
-const sounds = [
-  { src: 'chemin/vers/son1.mp3', startDelay: 0 },
-  { src: 'chemin/vers/son2.mp3', startDelay: 1000 }, // Exemple d'un son avec un délai de démarrage
-  // Ajoutez d'autres sons avec leurs chemins et délais de démarrage ici
-];
+const HomePage = () => {
+  const [playing, setPlaying] = useState(false);
 
-const loopDuration = 8000; // Durée d'une boucle en millisecondes (8 secondes)
+  const playPause = () => {
+    setPlaying(!playing);
+  }
 
-const App = () => {
-  useEffect(() => {
-    const playSoundsInLoop = () => {
-      sounds.forEach(({ src, startDelay }) => {
-        const sound = new Howl({ src, loop: true });
-        setTimeout(() => {
-          sound.play();
-        }, startDelay);
-      });
-
-      setTimeout(playSoundsInLoop, loopDuration);
-    };
-
-    playSoundsInLoop();
-
-    // Nettoyer les ressources lors du démontage du composant
-    return () => {
-      sounds.forEach(({ src }) => {
-        const sound = new Howl({ src });
-        sound.unload();
-      });
-    };
-  }, []);
-
-  return <div>Composition audio en boucle</div>;
+  return (
+    <div>
+      <h1>HomePage</h1>
+      <button onClick={() => playPause()}>{playing ? "Stop" : "Jouer"} PierreGuerrier</button>
+      <ReactHowler
+        src={soundFile}
+        playing={playing}  
+        loop={true}
+      />
+    </div>
+  );
 };
 
-export default App;
+export default HomePage;
