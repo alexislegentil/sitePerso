@@ -1,10 +1,19 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 
-const TimerContext = createContext();
+const SoundContext = createContext({
+  isTimerActive: false,
+  secondsRemaining: null,
+  soundPlaying: [],
+  startTimer: () => {},
+  pauseTimer: () => {},
+  playSound: () => {},
+  stopSound: () => {},
+});
 
-export const TimerProvider = ({ children }) => {
-  const [isActive, setIsActive] = useState(false);
+export const SoundProvider = ({ children }) => {
+  const [isTimerActive, setisTimerActive] = useState(false);
   const [secondsRemaining, setSecondsRemaining] = useState(null);
+  const [soundPlaying, setSoundPlaying] = useState([]);
 
   useEffect(() => {
     let intervalId;
@@ -24,40 +33,47 @@ export const TimerProvider = ({ children }) => {
       }, 1000); // Le timer se répète toutes les secondes
     };
 
-    if (isActive) {
+    if (isTimerActive) {
       handleTimer(); // Si le timer est actif, démarrer le timer
     }
 
     return () => {
       clearInterval(intervalId); // Nettoyage lors du démontage du composant
     };
-  }, [isActive]);
+  }, [isTimerActive]);
 
   const startTimer = () => {
-    setIsActive(true); // Activer le timer
+    setisTimerActive(true); // Activer le timer
   };
 
   const pauseTimer = () => {
-    setIsActive(false); // Désactiver le timer
+    setisTimerActive(false); // Désactiver le timer
   };
 
+  const playSound = (sound) => {
+    console.log('playSound', sound);
+    setSoundPlaying([...soundPlaying, sound]);
+  };
+
+  const stopSound = (sound) => {
+    setSoundPlaying(soundPlaying.filter(s => s !== sound));
+  };
+
+
   return (
-    <TimerContext.Provider value={{ isActive, secondsRemaining, startTimer, pauseTimer }}>
+    <SoundContext.Provider value={{ isTimerActive, secondsRemaining, soundPlaying, startTimer, pauseTimer, playSound, stopSound }}>
       {children}
       <div>
       <h1>Timer Component</h1>
       <p>Secondes restantes: {secondsRemaining}</p>
-      {isActive ? (
+      {isTimerActive ? (
         <button onClick={pauseTimer}>Pause Timer</button>
       ) : (
         <button onClick={startTimer}>Start Timer</button>
       )}
     </div>
-    </TimerContext.Provider>
+    </SoundContext.Provider>
   );
 };
 
-const useTimer = () => useContext(TimerContext);
-
-
-export default useTimer;
+export const useTimer = () => useContext(SoundContext);

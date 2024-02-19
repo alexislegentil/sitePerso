@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import ReactHowler from 'react-howler'; // Assurez-vous de placer votre fichier sonore dans le même répertoire que ce fichier
+import { useTimer } from '../provider/SoundContext.js';
 
 const SoundPlayer = (props) => {
   const soundFile = props.src; // Le fichier sonore à jouer
   const title = props.title; // Le titre du fichier sonore
+
+  const { isTimerActive, secondsRemaining, soundPlaying, startTimer, pauseTimer, isSoundPlaying, playSound, stopSound } = useTimer();
 
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -13,7 +16,31 @@ const SoundPlayer = (props) => {
   };
 
   const playPause = () => { 
-    setPlaying(!playing);
+    if (playing) {
+      // mettre pause
+      if (isTimerActive) {
+        pauseTimer();
+      }
+      if (soundPlaying.includes(title)) {
+    
+        stopSound(title);
+        
+      }
+
+      setPlaying(!playing);
+    }
+    else {
+      // mettre play
+      if (!isTimerActive) {
+        startTimer();
+      }
+      if (!soundPlaying.includes(title)){
+      
+        playSound(title);
+      }
+      setPlaying(!playing);
+    }
+   
   }
 
   return (
