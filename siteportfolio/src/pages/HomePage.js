@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import SoundPlayer from '../components/SoundPlayer';
-import PierreGuerrier from '../sounds/PierreGuerrier.m4a';
-import PierreBeatBox from '../sounds/PierreBeatBox.m4a';
+import PierreGuerrier from '../assets/audio/PierreGuerrier.mp3';
+import PierreBeatBox from '../assets/audio/PierreBeatBox.mp3';
+import JingleB from '../assets/audio/JingleB.mp3';
+import sportJingle6 from '../assets/audio/sport-jingle6.mp3';
+import sportJingle3 from '../assets/audio/sport-jingle3.mp3';
 import { SoundProvider, useTimer } from '../provider/SoundContext.js';
 
 const HomePage = () => {
@@ -13,6 +16,9 @@ const HomePage = () => {
           <p>Choisissez un son pour commencer :</p>
           <SoundPlayer src={PierreGuerrier} title='PierreGuerrier' />
           <SoundPlayer src={PierreBeatBox} title='PierreBeatBox' />
+          <SoundPlayer src={JingleB} title='JingleB' />
+          <SoundPlayer src={sportJingle6} title='sportJingle6' />
+          <SoundPlayer src={sportJingle3} title='sportJingle3' />
         </div>
       </SoundProvider>
     );

@@ -18,16 +18,18 @@ const SoundPlayer = (props) => {
   const playPause = () => { 
     if (playing) {
       // mettre pause
-      if (isTimerActive) {
-        pauseTimer();
-      }
+      
       if (soundPlaying.includes(title)) {
     
         stopSound(title);
         
       }
-
-      setPlaying(!playing);
+      if (soundPlaying.length === 1) {
+        if (isTimerActive) {
+          pauseTimer();
+        }
+      }
+      setPlaying(false);
     }
     else {
       // mettre play
@@ -38,7 +40,7 @@ const SoundPlayer = (props) => {
       
         playSound(title);
       }
-      setPlaying(!playing);
+      setPlaying(true);
     }
    
   }

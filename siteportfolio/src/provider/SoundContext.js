@@ -19,14 +19,24 @@ export const SoundProvider = ({ children }) => {
     let intervalId;
 
     const handleTimer = () => {
-      setSecondsRemaining(8); // Commencer le compte à rebours à partir de 8 secondes
+      console.log('ez');
+      if (secondsRemaining === null) {
+        setSecondsRemaining(8); // Commencer le compte à rebours à partir de 8 secondes
+      }
+      else {
+        console.log('secondsRemaining', secondsRemaining);
+      }
+     
 
       intervalId = setInterval(() => {
         setSecondsRemaining(prevSeconds => {
+          console.log('prevSeconds', prevSeconds);
           if (prevSeconds === 1) {
             clearInterval(intervalId); // Arrêter le timer lorsque le temps est écoulé
            // return 8; // Réinitialiser le compteur à 8 pour le prochain cycle
-            handleTimer();
+           setSecondsRemaining(8); 
+           console.log('secondsRemaining', secondsRemaining);
+           handleTimer();
           }
           return prevSeconds - 1; // Décrémenter le nombre de secondes restantes
         });
