@@ -59,6 +59,7 @@ export const SoundProvider = ({ children }) => {
 
   const startTimer = () => {
     setisTimerActive(true); // Activer le timer
+    console.log('stockPlayingSounds', stockPlayingSounds);
     if (stockPlayingSounds && stockPlayingSounds.length > 0) {
       stockPlayingSounds.forEach(sound => {
         playSound(sound);
