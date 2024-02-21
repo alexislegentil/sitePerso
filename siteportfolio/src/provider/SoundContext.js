@@ -14,29 +14,22 @@ export const SoundProvider = ({ children }) => {
   const [isTimerActive, setisTimerActive] = useState(false);
   const [secondsRemaining, setSecondsRemaining] = useState(null);
   const [soundPlaying, setSoundPlaying] = useState([]);
+  var stockPlayingSounds = [];
 
   useEffect(() => {
     let intervalId;
 
     const handleTimer = () => {
-      console.log('ez');
       if (secondsRemaining === null) {
         setSecondsRemaining(8); // Commencer le compte à rebours à partir de 8 secondes
       }
-      else {
-        console.log('secondsRemaining', secondsRemaining);
-      }
-     
 
-      intervalId = setInterval(() => {
+      intervalId = setInterval(async () => {
         setSecondsRemaining(prevSeconds => {
-          console.log('prevSeconds', prevSeconds);
           if (prevSeconds === 1) {
             clearInterval(intervalId); // Arrêter le timer lorsque le temps est écoulé
-           // return 8; // Réinitialiser le compteur à 8 pour le prochain cycle
-           setSecondsRemaining(8); 
-           console.log('secondsRemaining', secondsRemaining);
-           handleTimer();
+            setSecondsRemaining(8); 
+            handleTimer();
           }
           return prevSeconds - 1; // Décrémenter le nombre de secondes restantes
         });
@@ -52,21 +45,36 @@ export const SoundProvider = ({ children }) => {
     };
   }, [isTimerActive]);
 
-  const startTimer = () => {
-    setisTimerActive(true); // Activer le timer
+  const pauseTimer = async () => {
+    setisTimerActive(false); // Désactiver le timer
+    if (soundPlaying.length > 0) {
+      console.log('soundPlaying', soundPlaying);
+      stockPlayingSounds = soundPlaying;
+      for (const sound of soundPlaying) {
+        console.log('sound', sound);
+        await stopSound(sound);
+      }
+    }
   };
 
-  const pauseTimer = () => {
-    setisTimerActive(false); // Désactiver le timer
+  const startTimer = () => {
+    setisTimerActive(true); // Activer le timer
+    if (stockPlayingSounds && stockPlayingSounds.length > 0) {
+      stockPlayingSounds.forEach(sound => {
+        playSound(sound);
+      });
+    }
   };
+
 
   const playSound = (sound) => {
     console.log('playSound', sound);
     setSoundPlaying([...soundPlaying, sound]);
   };
 
-  const stopSound = (sound) => {
-    setSoundPlaying(soundPlaying.filter(s => s !== sound));
+  const stopSound = async (sound) => {
+    console.log('stopSound', sound);
+    await setSoundPlaying(soundPlaying.filter(s => s !== sound));
   };
 
 

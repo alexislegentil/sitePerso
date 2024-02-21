@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactHowler from 'react-howler'; // Assurez-vous de placer votre fichier sonore dans le même répertoire que ce fichier
 import { useTimer } from '../provider/SoundContext.js';
 
@@ -10,6 +10,19 @@ const SoundPlayer = (props) => {
 
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
+   
+  useEffect(() => {
+    console.log( soundPlaying)
+    console.log( title)
+    console.log( soundPlaying.includes(title))
+    if (soundPlaying.includes(title) && !playing) {
+      setPlaying(true);
+    }
+    else if (!soundPlaying.includes(title) && playing) {
+      setPlaying(false);
+    }
+  }, [soundPlaying]);
+
 
   const handleVolumeChange = e => {
     setVolume(parseFloat(e.target.value));
@@ -20,16 +33,13 @@ const SoundPlayer = (props) => {
       // mettre pause
       
       if (soundPlaying.includes(title)) {
-    
         stopSound(title);
-        
       }
       if (soundPlaying.length === 1) {
         if (isTimerActive) {
           pauseTimer();
         }
       }
-      setPlaying(false);
     }
     else {
       // mettre play
@@ -40,7 +50,6 @@ const SoundPlayer = (props) => {
       
         playSound(title);
       }
-      setPlaying(true);
     }
    
   }
