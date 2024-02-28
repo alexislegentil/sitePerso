@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactHowler from 'react-howler'; // Assurez-vous de placer votre fichier sonore dans le même répertoire que ce fichier
 import { useTimer } from '../provider/SoundContext.js';
+import '../css/SoundPlayer.css';
 
 const SoundPlayer = (props) => {
   const soundFile = props.src; // Le fichier sonore à jouer
@@ -12,8 +13,6 @@ const SoundPlayer = (props) => {
   const [volume, setVolume] = useState(1);
    
   useEffect(() => {
-    console.log( soundPlaying)
-    console.log( title)
     console.log( soundPlaying.includes(title))
     if (soundPlaying.includes(title) && !playing) {
       setPlaying(true);
@@ -55,24 +54,24 @@ const SoundPlayer = (props) => {
   }
 
   return (
-    <div>
-      <h1>{title}</h1>
-      <button onClick={() => playPause()}>{playing ? "Stop" : "Jouer"} {title}</button>
-      <input
-        type="range"
-        min="0"
-        max="1"
-        step="0.01"
-        value={volume}
-        onChange={handleVolumeChange}
-      />
-      <ReactHowler
-        src={soundFile}
-        playing={playing}
-        volume={volume} // Volume contrôlé par l'état
-        loop={true}
-      />
-    </div>
+    <div className="sound-player-container">
+    <h1>{title}</h1>
+    <button onClick={() => playPause()}>{playing ? "Stop" : "Jouer"} {title}</button>
+    <input
+      type="range"
+      min="0"
+      max="1"
+      step="0.01"
+      value={volume}
+      onChange={handleVolumeChange}
+    />
+    <ReactHowler
+      src={soundFile}
+      playing={playing}
+      volume={volume} // Volume contrôlé par l'état
+      loop={true}
+    />
+  </div>
   );
 };
 

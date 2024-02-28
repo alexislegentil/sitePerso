@@ -14,7 +14,7 @@ export const SoundProvider = ({ children }) => {
   const [isTimerActive, setisTimerActive] = useState(false);
   const [secondsRemaining, setSecondsRemaining] = useState(null);
   const [soundPlaying, setSoundPlaying] = useState([]);
-  var stockPlayingSounds = [];
+  const [stockPlayingSounds, setStockPlayingSounds] = useState([]);
 
   useEffect(() => {
     let intervalId;
@@ -46,18 +46,21 @@ export const SoundProvider = ({ children }) => {
   }, [isTimerActive]);
 
   const pauseTimer = async () => {
-    setisTimerActive(false); // Désactiver le timer
+    
     if (soundPlaying.length > 0) {
       console.log('soundPlaying', soundPlaying);
-      stockPlayingSounds = soundPlaying;
+      setStockPlayingSounds(soundPlaying);
       for (const sound of soundPlaying) {
         console.log('sound', sound);
         await stopSound(sound);
       }
     }
+    setisTimerActive(false); // Désactiver le timer
+    console.log('soundPlay', soundPlaying);
   };
 
   const startTimer = () => {
+    console.log(soundPlaying);
     setisTimerActive(true); // Activer le timer
     console.log('stockPlayingSounds', stockPlayingSounds);
     if (stockPlayingSounds && stockPlayingSounds.length > 0) {
@@ -74,8 +77,9 @@ export const SoundProvider = ({ children }) => {
   };
 
   const stopSound = async (sound) => {
-    console.log('stopSound', sound);
+    
     await setSoundPlaying(soundPlaying.filter(s => s !== sound));
+    console.log('stopSound', sound);
   };
 
 
