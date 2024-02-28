@@ -21,19 +21,17 @@ export const SoundProvider = ({ children }) => {
 
     const handleTimer = () => {
       if (secondsRemaining === null) {
-        setSecondsRemaining(8); // Commencer le compte à rebours à partir de 8 secondes
+        setSecondsRemaining(8); // Start the countdown from 8 seconds
       }
-
-      intervalId = setInterval(async () => {
+    
+      intervalId = setInterval(() => {
         setSecondsRemaining(prevSeconds => {
           if (prevSeconds <= 1) {
-            clearInterval(intervalId); // Arrêter le timer lorsque le temps est écoulé
-            setSecondsRemaining(8); 
-            handleTimer();
+            return 8; // Reset the countdown when time is up
           }
-          return prevSeconds - 1; // Décrémenter le nombre de secondes restantes
+          return prevSeconds - 1; // Decrement the remaining seconds
         });
-      }, 1000); // Le timer se répète toutes les secondes
+      }, 1000); // The timer repeats every second
     };
 
     if (isTimerActive) {

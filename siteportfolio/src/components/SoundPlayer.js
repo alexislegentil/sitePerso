@@ -22,7 +22,6 @@ const SoundPlayer = (props) => {
   }));
    
   useEffect(() => {
-    console.log( soundPlaying.includes(title))
     if (soundPlaying.includes(title) && !playing) {
       setPlaying(true);
     }
