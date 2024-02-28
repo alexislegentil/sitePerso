@@ -26,7 +26,7 @@ export const SoundProvider = ({ children }) => {
 
       intervalId = setInterval(async () => {
         setSecondsRemaining(prevSeconds => {
-          if (prevSeconds === 1) {
+          if (prevSeconds <= 1) {
             clearInterval(intervalId); // Arrêter le timer lorsque le temps est écoulé
             setSecondsRemaining(8); 
             handleTimer();

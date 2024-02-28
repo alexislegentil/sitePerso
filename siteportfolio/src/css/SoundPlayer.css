@@ -1,7 +1,9 @@
 .sound-player-container {
     border: 1px solid #ccc;
+    border-radius: 10px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 20px; 
+    background-color: #D3D3D3;
   }
   
   .sound-player-container h1 {

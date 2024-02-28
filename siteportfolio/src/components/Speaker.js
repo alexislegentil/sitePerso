@@ -5,16 +5,18 @@ import SpeakerSVG from './SpeakerSVG'; // Assumez que SpeakerSVG est un composan
 const Speaker = ({ onDrop }) => {
   const [isActive, setIsActive] = useState(false);
 
-  const [, drop] = useDrop({
+  const [{isOver}, drop] = useDrop(() => ({
     accept: 'musicObject',
-    drop: (item, monitor) => {
-      // Exécuter une fonction de traitement lorsqu'un objet est déposé sur l'enceinte
-      onDrop(item);
+    drop: (item) => {
+     handleSpeakerOn();
+     console.log('Dropped on speaker :', item.title);
     },
-    collect: monitor => ({
-      isOver: !!monitor.isOver(),
-    }),
-  });
+  }));
+
+  const handleSpeakerOn = () => {
+    // Gérer l'événement lorsqu'on survole l'enceinte
+    setIsActive(true);
+  };
 
   const handleSpeakerClick = () => {
     // Gérer l'événement lorsqu'on clique sur l'enceinte

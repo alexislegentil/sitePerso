@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactHowler from 'react-howler'; // Assurez-vous de placer votre fichier sonore dans le même répertoire que ce fichier
 import { useTimer } from '../provider/SoundContext.js';
+import { useDrag } from 'react-dnd';
 import '../css/SoundPlayer.css';
 
 const SoundPlayer = (props) => {
@@ -11,6 +12,14 @@ const SoundPlayer = (props) => {
 
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'musicObject',
+    item: { title },
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
    
   useEffect(() => {
     console.log( soundPlaying.includes(title))
@@ -54,7 +63,7 @@ const SoundPlayer = (props) => {
   }
 
   return (
-    <div className="sound-player-container">
+    <div className="sound-player-container" ref={drag}>
     <h1>{title}</h1>
     <button onClick={() => playPause()}>{playing ? "Stop" : "Jouer"} {title}</button>
     <input
