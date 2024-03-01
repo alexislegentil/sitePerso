@@ -1,8 +1,8 @@
-export default function SpeakerSVG({ isActive }) {
+export default function SpeakerSVG({ isActive, color }) {
 
-    let contourColor = isActive ? "#222051" : "#C0C0C0";
-    let backgtoundColor = isActive ? "#4EFFBB" : "#A9A9A9";
-    let speakerColor = isActive ? "#302C58" : "#D3D3D3";
+    let contourColor = color;//isActive ? "#222051" : "#C0C0C0";
+    let backgtoundColor = color;// isActive ? "#4EFFBB" : "#A9A9A9";
+    let speakerColor =color;
 
     return (
         <svg 

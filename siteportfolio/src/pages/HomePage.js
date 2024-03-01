@@ -12,17 +12,23 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const HomePage = () => {
 
+  const sounds = [ // Liste des sons à jouer [src, title]
+    {src: PierreGuerrier, title: 'PierreGuerrier', color: "rgba(255, 0, 0, 0.5)"},
+    {src: PierreBeatBox, title: 'PierreBeatBox', color: "rgba(0, 0, 255, 0.3)"},
+    {src: JingleB, title: 'JingleB', color: "rgba(0, 128, 0, 0.5)"},
+    {src: sportJingle6, title: 'sportJingle6', color: "rgba(255, 255, 0, 0.5)"},
+    {src: sportJingle3, title: 'sportJingle3', color: "rgba(128, 0, 128, 0.5)"}
+  ]
+
     return (
       <DndProvider  backend={HTML5Backend}>
         <SoundProvider>
           <div>
             <h1>Bienvenue sur notre site de musique interactif !</h1>
             <p>Choisissez un son pour commencer :</p>
-            <SoundPlayer src={PierreGuerrier} title='PierreGuerrier' />
-            <SoundPlayer src={PierreBeatBox} title='PierreBeatBox' />
-            <SoundPlayer src={JingleB} title='JingleB' />
-            <SoundPlayer src={sportJingle6} title='sportJingle6' />
-            <SoundPlayer src={sportJingle3} title='sportJingle3' />
+            {sounds.map(sound => (
+              <SoundPlayer src={sound.src} title={sound.title} color={sound.color} key={sound.title} />
+            ))}
           </div>
           <Speaker />
         </SoundProvider>

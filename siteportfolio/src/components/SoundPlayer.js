@@ -7,6 +7,7 @@ import '../css/SoundPlayer.css';
 const SoundPlayer = (props) => {
   const soundFile = props.src; // Le fichier sonore à jouer
   const title = props.title; // Le titre du fichier sonore
+  const color = props.color; 
 
   const { isTimerActive, secondsRemaining, soundPlaying, startTimer, pauseTimer, isSoundPlaying, playSound, stopSound } = useTimer();
 
@@ -15,7 +16,7 @@ const SoundPlayer = (props) => {
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'musicObject',
-    item: { title },
+    item: { title, soundFile, color, setPlaying},
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -54,7 +55,6 @@ const SoundPlayer = (props) => {
         startTimer();
       }
       if (!soundPlaying.includes(title)){
-      
         playSound(title);
       }
     }
@@ -62,24 +62,26 @@ const SoundPlayer = (props) => {
   }
 
   return (
-    <div className="sound-player-container" ref={drag}>
-    <h1>{title}</h1>
-    <button onClick={() => playPause()}>{playing ? "Stop" : "Jouer"} {title}</button>
-    <input
-      type="range"
-      min="0"
-      max="1"
-      step="0.01"
-      value={volume}
-      onChange={handleVolumeChange}
-    />
-    <ReactHowler
-      src={soundFile}
-      playing={playing}
-      volume={volume} // Volume contrôlé par l'état
-      loop={true}
-    />
-  </div>
+    <div className="sound-player-container" ref={drag} style={{ backgroundColor: color }}>
+      <h1>{title}</h1>
+      <button onClick={() => playPause()}>
+        {playing ? "Stop" : "Jouer"} {title}
+      </button>
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value={volume}
+        onChange={handleVolumeChange}
+      />
+      <ReactHowler
+        src={soundFile}
+        playing={playing}
+        volume={volume} 
+        loop={true}
+      />
+    </div>
   );
 };
 
