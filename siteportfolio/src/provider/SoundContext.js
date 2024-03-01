@@ -76,7 +76,7 @@ export const SoundProvider = ({ children }) => {
 
   const stopSound = async (sound) => {
     
-    await setSoundPlaying(soundPlaying.filter(s => s !== sound));
+    setSoundPlaying(soundPlaying.filter(s => s !== sound));
     console.log('stopSound', sound);
   };
 

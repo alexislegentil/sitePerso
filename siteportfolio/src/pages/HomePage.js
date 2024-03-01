@@ -30,7 +30,10 @@ const HomePage = () => {
               <SoundPlayer src={sound.src} title={sound.title} color={sound.color} key={sound.title} />
             ))}
           </div>
-          <Speaker />
+          <Speaker/>
+          <Speaker/>
+          <Speaker/>
+          <Speaker/>
         </SoundProvider>
       </DndProvider>
     );

@@ -84,8 +84,8 @@ const Speaker = () => {
           <>
             <ReactHowler
               src={lastItem.soundFile}
-              playing={lastItem.playing}
-              volume={lastItem.volume} 
+              playing={playing}
+              volume={volume} 
               loop={true}
             />
             <input
