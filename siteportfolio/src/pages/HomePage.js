@@ -26,14 +26,18 @@ const HomePage = () => {
           <div>
             <h1>Bienvenue sur notre site de musique interactif !</h1>
             <p>Choisissez un son pour commencer :</p>
+            <div style={{display:'flex'}}>
             {sounds.map(sound => (
               <SoundPlayer src={sound.src} title={sound.title} color={sound.color} key={sound.title} />
             ))}
+            </div>
           </div>
+          <div style={{display:'flex'}}>
           <Speaker/>
           <Speaker/>
           <Speaker/>
           <Speaker/>
+          </div>
         </SoundProvider>
       </DndProvider>
     );

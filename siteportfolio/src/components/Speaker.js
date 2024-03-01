@@ -78,8 +78,8 @@ const Speaker = () => {
   };
 
   return (
-    <div ref={drop} onClick={handleSpeakerClick}>
-      <SpeakerSVG isActive={isActive} color={color}/>
+    <div ref={drop}>
+      <SpeakerSVG isActive={isActive} color={color} onClick={handleSpeakerClick}/>
       {lastItem ? (
           <>
             <ReactHowler
