@@ -1,17 +1,57 @@
 import React, { useEffect, useState } from 'react';
+import ReactHowler from 'react-howler'; // Assurez-vous de placer votre fichier sonore dans le même répertoire que ce fichier
+import { useTimer } from '../provider/SoundContext.js';
 import { useDrop } from 'react-dnd';
 import SpeakerSVG from './SpeakerSVG'; // Assumez que SpeakerSVG est un composant SVG représentant une enceinte de musique
 
-const Speaker = ({ onDrop }) => {
+const Speaker = () => {
   const [isActive, setIsActive] = useState(false);
   const [color, setColor] = useState("#C0C0C0");
   const [lastItem, setLastItem] = useState(null);
 
+  const { isTimerActive, soundPlaying, startTimer, pauseTimer, playSound, stopSound } = useTimer();
+  const [playing, setPlaying] = useState(false);
+  const [volume, setVolume] = useState(1);
+
   useEffect(() => {
     !isActive ? setColor("#C0C0C0") : (lastItem) ? setColor(lastItem.color) : setColor("#C0C0C0");
 
-   if (isActive && lastItem !== null) { lastItem.setPlaying(true)} else if (lastItem !== null) { lastItem.setPlaying(false) }
+   if (lastItem !== null) {
+      if (playing) {
+        // mettre pause
+        
+        if (soundPlaying.includes(lastItem.title)) {
+          stopSound(lastItem.title);
+          console.log('stopSound :', lastItem.title);
+        }
+        if (soundPlaying.length === 1) {
+          if (isTimerActive) {
+            pauseTimer();
+          }
+        }
+      }
+      else {
+        // mettre play
+        if (!isTimerActive) {
+          startTimer();
+        }
+        if (!soundPlaying.includes(lastItem.title)){
+          playSound(lastItem.title);
+        }
+      }
+    }
   }, [isActive]);
+
+  useEffect(() => {
+    if (lastItem !== null) {
+    if (soundPlaying.includes(lastItem.title) && !playing) {
+      setPlaying(true);
+    }
+    else if (!soundPlaying.includes(lastItem.title) && playing) {
+      setPlaying(false);
+    }
+    }
+  }, [soundPlaying]);
 
   const [{isOver}, drop] = useDrop(() => ({
     accept: 'musicObject',
@@ -23,6 +63,10 @@ const Speaker = ({ onDrop }) => {
     },
   }));
 
+  const handleVolumeChange = e => {
+    setVolume(parseFloat(e.target.value));
+  };
+  
   const handleSpeakerOn = () => {
     // Gérer l'événement lorsqu'on survole l'enceinte
     setIsActive(true);
@@ -35,7 +79,25 @@ const Speaker = ({ onDrop }) => {
 
   return (
     <div ref={drop} onClick={handleSpeakerClick}>
-     <SpeakerSVG isActive={isActive} color={color} />
+      <SpeakerSVG isActive={isActive} color={color}/>
+      {lastItem ? (
+          <>
+            <ReactHowler
+              src={lastItem.soundFile}
+              playing={lastItem.playing}
+              volume={lastItem.volume} 
+              loop={true}
+            />
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeChange}
+            />
+          </>
+        ) : null}
     </div>
   );
 };
