@@ -82,7 +82,7 @@ export const SoundProvider = ({ children }) => {
 
 
   return (
-    <SoundContext.Provider value={{ isTimerActive, secondsRemaining, soundPlaying, startTimer, pauseTimer, playSound, stopSound }}>
+    <SoundContext.Provider value={{ isTimerActive, secondsRemaining, soundPlaying, stockPlayingSounds, startTimer, pauseTimer, playSound, stopSound }}>
       {children}
       <div>
       <h1>Timer Component</h1>
