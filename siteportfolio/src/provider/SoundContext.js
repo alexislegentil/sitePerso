@@ -1,5 +1,8 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import PauseSVG from '../components/pauseSVG';
+import PlaySVG from '../components/playSVG';
 
 const SoundContext = createContext({
   isTimerActive: false,
@@ -86,25 +89,46 @@ export const SoundProvider = ({ children }) => {
     <SoundContext.Provider value={{ isTimerActive, secondsRemaining, soundPlaying, stockPlayingSounds, startTimer, pauseTimer, playSound, stopSound }}>
       {children}
       <div>
-      <CountdownCircleTimer
-        isPlaying={isTimerActive}
-        duration={8}
-        colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-        colorsTime={[7, 5, 2, 0]}
-        onComplete={() => {
-          // do your stuff here
-          return { shouldRepeat: true } // repeat animation in 1.5 seconds
-        }}
-      >
-        {({ remainingTime }) => remainingTime}
-      </CountdownCircleTimer>
-      <p>Secondes restantes: {secondsRemaining}</p>
-      {isTimerActive ? (
-        <button onClick={pauseTimer}>Pause Timer</button>
-      ) : (
-        <button onClick={startTimer}>Start Timer</button>
-      )}
-    </div>
+        <div style={{ width: 200, height: 200 }}>
+          <CircularProgressbarWithChildren 
+          value={secondsRemaining} 
+          maxValue={8} 
+         // text={`${secondsRemaining}`} 
+          styles={buildStyles({
+          // Rotation of path and trail, in number of turns (0-1)
+          rotation: 0.25,
+
+          // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+          strokeLinecap: 'butt',
+
+          // Text size
+          textSize: '16px',
+
+          // How long animation takes to go from one percentage to another, in seconds
+          pathTransitionDuration: 0.5,
+
+          // Can specify path transition in more detail, or remove it entirely
+          // pathTransition: 'none',
+
+          // Colors
+          pathColor: `rgba(62, 152, 199, 1)`,
+          trailColor: '#d6d6d6',
+          backgroundColor: '#3e98c7',
+        })}>
+          <div style={{ fontSize: 12, marginTop: -5 }}>
+            {isTimerActive ? (
+              <div onClick={pauseTimer}>
+                <PauseSVG />
+              </div>
+              ) : (
+                <div onClick={startTimer}>
+                <PlaySVG />
+              </div>
+              )}
+          </div>
+        </CircularProgressbarWithChildren>
+        </div>
+      </div>
     </SoundContext.Provider>
   );
 };
