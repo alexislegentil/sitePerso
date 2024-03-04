@@ -37,9 +37,6 @@ const HomePage = () => {
   const sounds = [ // Liste des sons à jouer [src, title]
     {src: PierreGuerrier, title: 'PierreGuerrier', color: "rgba(255, 0, 0, 0.5)"},
     {src: PierreBeatBox, title: 'PierreBeatBox', color: "rgba(0, 0, 255, 0.3)"},
-    {src: JingleB, title: 'JingleB', color: "rgba(0, 128, 0, 0.5)"},
-    {src: sportJingle6, title: 'sportJingle6', color: "rgba(255, 255, 0, 0.5)"},
-    {src: sportJingle3, title: 'sportJingle3', color: "rgba(128, 0, 128, 0.5)"},
     {src: beatMe, title: 'beatMe', color: "rgba(255, 0, 0, 0.5)"},
     {src: beatboxDrum, title: 'beatboxDrum', color: "rgba(0, 0, 255, 0.3)"},
     {src: classicalViolin, title: 'classicalViolin', color: "rgba(0, 128, 0, 0.5)"},
@@ -58,37 +55,62 @@ const HomePage = () => {
     {src: hipHopPercussion120bpm, title: 'hipHopPercussion120bpm', color: "rgba(255, 0, 0, 0.5)"},
     {src: smoothBassForBeats, title: 'smoothBassForBeats', color: "rgba(0, 0, 255, 0.3)"},
     {src: steelDrumBeach, title: 'steelDrumBeach', color: "rgba(0, 128, 0, 0.5)"},
-    {src: supremo, title: 'supremo', color: "rgba(255, 255, 0, 0.5)"},
-    {src: travisScott, title: 'travisScott', color: "rgba(128, 0, 128, 0.5)"},
     {src: violin, title: 'violin', color: "rgba(255, 0, 0, 0.5)"},
-    {src: vocoder, title: 'vocoder', color: "rgba(0, 0, 255, 0.3)"}
+
   ]
+
+  const styles = {
+    container: {
+      textAlign: 'center',
+      padding: '20px',
+      fontFamily: 'Madimi One, sans-serif',
+      fontWeight: 400,
+      fontStyle: 'normal',
+      
+    },
+    heading: {
+      fontSize: '28px',
+      marginBottom: '20px',
+    },
+    paragraph: {
+      fontSize: '18px',
+      marginBottom: '20px',
+    },
+    soundPlayerContainer: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      marginBottom: '20px',
+      gap: '1em',
+    },
+    speakerContainer: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
+  };
 
     return (
       <DndProvider  backend={HTML5Backend}>
         <SoundProvider>
-          <div>
-            <h1>Bienvenue sur MelodyLab !</h1>
-            <p>Choisissez un son pour commencer, puis glissez le sur l'un des speaker disponibles</p>
-            <div style={{display:'flex', flexWrap:'wrap'}}>
-            {sounds.map(sound => (
-              <SoundPlayer src={sound.src} title={sound.title} color={sound.color} key={sound.title} />
-            ))}
-            </div>
-          </div>
-          <div style={{display:'flex', flexWrap:'wrap'}}>
-          <Speaker/>
-          <Speaker/>
-          <Speaker/>
-          <Speaker/>
-          <Speaker/>
-          <Speaker/>
-          <Speaker/>
-          <Speaker/>
-          </div>
+        <div style={styles.container}>
+      <h1 style={styles.heading}>Bienvenue sur MelodyLab !</h1>
+      <p style={styles.paragraph}>Choisissez un son pour commencer, puis glissez-le sur l'un des haut-parleurs disponibles</p>
+      <div style={styles.soundPlayerContainer}>
+        {sounds.map(sound => (
+          <SoundPlayer src={sound.src} title={sound.title} color={sound.color} key={sound.title} />
+        ))}
+      </div>
+      <div style={styles.speakerContainer}>
+        {[...Array(8)].map((_, index) => (
+          <Speaker key={index} />
+        ))}
+      </div>
+    </div>
         </SoundProvider>
       </DndProvider>
     );
+    
 }
 
 export default HomePage;

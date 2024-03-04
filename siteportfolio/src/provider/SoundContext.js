@@ -47,6 +47,12 @@ export const SoundProvider = ({ children }) => {
     };
   }, [isTimerActive]);
 
+  useEffect
+  (() => {
+    if (soundPlaying == []) {
+      secondsRemaining(8);   }
+  }, [soundPlaying]);
+
   const pauseTimer = async () => {
     
     if (soundPlaying.length > 0) {
@@ -88,7 +94,7 @@ export const SoundProvider = ({ children }) => {
   return (
     <SoundContext.Provider value={{ isTimerActive, secondsRemaining, soundPlaying, stockPlayingSounds, startTimer, pauseTimer, playSound, stopSound }}>
       {children}
-      <div>
+      <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
         <div style={{ width: 200, height: 200 }}>
           <CircularProgressbarWithChildren 
           value={secondsRemaining} 
