@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 const SoundContext = createContext({
   isTimerActive: false,
@@ -85,7 +86,18 @@ export const SoundProvider = ({ children }) => {
     <SoundContext.Provider value={{ isTimerActive, secondsRemaining, soundPlaying, stockPlayingSounds, startTimer, pauseTimer, playSound, stopSound }}>
       {children}
       <div>
-      <h1>Timer Component</h1>
+      <CountdownCircleTimer
+        isPlaying={isTimerActive}
+        duration={8}
+        colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+        colorsTime={[7, 5, 2, 0]}
+        onComplete={() => {
+          // do your stuff here
+          return { shouldRepeat: true } // repeat animation in 1.5 seconds
+        }}
+      >
+        {({ remainingTime }) => remainingTime}
+      </CountdownCircleTimer>
       <p>Secondes restantes: {secondsRemaining}</p>
       {isTimerActive ? (
         <button onClick={pauseTimer}>Pause Timer</button>
